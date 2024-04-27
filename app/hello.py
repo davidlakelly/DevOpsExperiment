@@ -1,6 +1,6 @@
-from flask import Flask
 from flask import Flask, render_template, redirect, url_for, request
-#from ? import*
+import api_call
+import db_query
 app = Flask(__name__)
 authflag = 0
 #temp switch list pending methods
@@ -28,6 +28,18 @@ switchList = [
     }
 ]
 
+# get data from api and return it in a route
+
+@app.route('/getapidata')
+def get_data():
+    data = api_call.get_data()
+    return data
+
+@app.route('/getdbdata')
+def get_db_data():
+    data = db_query.readSqliteTable()
+    return data
+
 
 @app.route('/')
 def hello():
@@ -45,6 +57,8 @@ def render_data():
         return render_template('datapage.html', switches=switchList )
     else :
         return redirect('/loginpage', error='Unauthroised Access')
+
+
 
 # This is the route fo the login page
 @app.route('/login', methods=['GET', 'POST'])

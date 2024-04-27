@@ -1,3 +1,3 @@
 # DevOpsExperiment
-
-#Devlopment Session Start 1921 
+## How to get started
+flask --app hello run --debug
