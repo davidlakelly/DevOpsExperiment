@@ -3,16 +3,18 @@
     <title>Datapage</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="static/bootstrap.min.css" rel="stylesheet" href="pagestyle.css" media="screen">
-    <link href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css" rel="stylesheet" href="pagestyle.css" media="screen">
+    <link href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css" rel="stylesheet" href="pagestyle.css" media="screen"> 
 
 </head>
   <body>
     <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Serial</th>
-                <th>IP</th>
+                <th>Indicator</th>
+                <th>Geopolitical Entity</th>
+                <th>Year</th>
+                <th>Value</th>
+                <th>Flag</th>
             </tr>
         </thead>
         <tbody>
@@ -20,9 +22,11 @@
     
             {% for switch in switches %}
             <tr>
-                <td>{{ switch.name }}</td>
-                <td>{{ switch.serial }}</td>
-                <td>{{ switch.ip }}</td>
+                <td>{{ switch.indic_de }}</td>
+                <td>{{ switch.geo }}</td>
+                <td>{{ switch.TIME_PERIOD }}</td>
+                <td>{{ switch.OBS_VALUE }}</td>
+                <td>{{ switch.OBS_FLAG }}</td>
             </tr>
               
             {% endfor %}
@@ -32,7 +36,7 @@
         </table>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script> 
 
-<script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script> 
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script> 
 
 
         <script>

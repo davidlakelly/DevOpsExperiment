@@ -1,24 +1,34 @@
 from flask import Flask
 from flask import Flask, render_template, redirect, url_for, request
-
+#from ? import*
 app = Flask(__name__)
+authflag = 0
+#temp switch list pending methods
 switchList = [
         {
-        "name": "C9200",
-        "serial": "ABCD00010",
-        "ip": "192.168.1.1"     
+        "indic_de": "C9200",
+        "geo": "ABCD00010",
+        "TIME_PERIOD": "192.168.1.1" ,    
+         "OBS_VALUE": "ABCD00010",
+        "OBS_FLAG": "192.168.1.1" 
     },
     {
-        "name": "C9300",
-        "serial": "ABCD00011",
-        "ip": "172.168.44.2"  
+        "indic_de": "C9200",
+        "geo": "ABCD00010",
+        "TIME_PERIOD": "192.168.1.1" ,    
+         "OBS_VALUE": "ABCD00010",
+        "OBS_FLAG": "192.168.1.1" 
     },
         {
-        "name": "C9400",
-        "serial": "ABCD00012",
-        "ip": "172.33.44.2"    
+        "indic_de": "C9200",
+        "geo": "ABCD00010",
+        "TIME_PERIOD": "192.168.1.1" ,    
+         "OBS_VALUE": "ABCD00010",
+        "OBS_FLAG": "192.168.1.1" 
     }
 ]
+
+
 @app.route('/')
 def hello():
     return 'login sucess'
@@ -29,11 +39,12 @@ def render_html():
     return render_template('sample.html', name="David",users=users )
 
 
-@app.route('/datapage')
+@app.route('/datapage') #This is the route for the data page
 def render_data():
-    return render_template('datapage.html', switches=switchList )
-
-
+    if authflag == 1:
+        return render_template('datapage.html', switches=switchList )
+    else :
+        return redirect('/loginpage', error='Unauthroised Access')
 
 # This is the route fo the login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -42,7 +53,9 @@ def login():
     if request.method == 'POST':
         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
             error = 'Invalid Credentials. Please try again.'
+            authflag = 0
         else:
+            authflag = 1
             return redirect('/datapage')
     return render_template('loginpage.html', error=error)
 
