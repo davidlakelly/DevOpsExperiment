@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, send_file
 import api_call
 import db_query
 import os
+import sys
 app = Flask(__name__)
 authflag = 0
 #temp switch list pending methods
@@ -63,9 +64,9 @@ def render_data():
 def downloadFile ():
     path = "static/test.txt"
     #print working directory
-    print(os.getcwd())
+    print(os.getcwd(), file=sys.stdout())
     #list directory
-    print(os.listdir())
+    print(os.listdir(), file=sys.stdout())
     data = api_call.get_data()
     with open(path, "w+") as text_file:
         text_file.write(str(data))
