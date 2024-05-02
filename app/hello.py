@@ -64,9 +64,9 @@ def render_data():
 def downloadFile ():
     path = "static/test.txt"
     #print working directory
-    print(os.getcwd(), file=sys.stdout())
+    print(os.getcwd(), file=sys.stdout)
     #list directory
-    print(os.listdir(), file=sys.stdout())
+    print(os.listdir(), file=sys.stdout)
     data = api_call.get_data()
     with open(path, "w+") as text_file:
         text_file.write(str(data))
