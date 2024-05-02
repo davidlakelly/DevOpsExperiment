@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request
-import api_call
-import db_query
+from app import api_call
+from app import db_query
 app = Flask(__name__)
 authflag = 0
 #temp switch list pending methods
@@ -43,35 +43,43 @@ def get_db_data():
 
 @app.route('/')
 def hello():
-    return 'login sucess'
+    return redirect('/login')
 
 @app.route('/sample')
 def render_html():
     users = ["David", "John", "Paul", "George"]
-    return render_template('sample.html', name="David",users=users )
+    return render_template('sample.html', name="David",users=users)
+
+
+# This is the route for the login page
+@app.route('/login', methods=['GET', 'POST'])
+def login(error = None):
+
+    if request.method == 'POST':
+        if request.form['username'] != 'admin' or request.form['password'] != 'admin': #admin login fails
+            error = 'Invalid Credentials. Please try again.'
+            authflag = 0
+            return render_template('loginpage.html', error=error)
+        else:
+            authflag = 1
+            return redirect('/datapage') # login success
+    else:
+        return render_template('loginpage.html', error=error)
 
 
 @app.route('/datapage') #This is the route for the data page
 def render_data():
-    if authflag == 1:
+    if authflag == 1: #login success
         return render_template('datapage.html', switches=switchList )
-    else :
-        return redirect('/loginpage', error='Unauthroised Access')
+    else: #attempting to access page berfore login
+        return render_template('loginpage.html', error = 'Unauthroised Access Attempt')
 
-
-
-# This is the route fo the login page
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid Credentials. Please try again.'
-            authflag = 0
-        else:
-            authflag = 1
-            return redirect('/datapage')
-    return render_template('loginpage.html', error=error)
+@app.route('/graphpage')
+def render_graph():
+    return render_template(
+        template_name_or_list='chartjs-example.html',
+        switches=switchList,
+    )
 
 if __name__ == '__main__':
     app.run()
