@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request
-import api_call
-import db_query
+from app import api_call
+from app import db_query
 app = Flask(__name__)
 authflag = 0
 #temp switch list pending methods

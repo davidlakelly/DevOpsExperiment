@@ -2,10 +2,28 @@
 
 import sys
 import requests
+import csv
+import pandas as pd
 
+#query to get data from the site
 def get_data():
     r = requests.get('https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tps00019?lang=EN')
     return r.json()
+
+
+#with open("TestData.csv", 'r') as file:
+#  csvreader = csv.reader(file)
+#  for row in csvreader:
+#    print(row)
+
+#save data in a panda DF
+#data = pd.read_csv("TestData.csv")
+#data
+
+
+
+
+
 #print(r.json())
 
 #f = open("test1.CSV", "w")
