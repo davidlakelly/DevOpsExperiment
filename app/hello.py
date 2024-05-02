@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request
-import api_call
-import db_query
+from app import api_call
+from app import db_query
 app = Flask(__name__)
 authflag = 0
 #temp switch list pending methods
@@ -58,6 +58,10 @@ def render_data():
     else :
         return redirect('/loginpage', error='Unauthroised Access')
 
+#add a route for a download page
+@app.route('/download')
+def download():
+    return render_template('download.html')
 
 
 # This is the route fo the login page
