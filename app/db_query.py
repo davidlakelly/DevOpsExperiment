@@ -11,19 +11,19 @@ def readSqliteTable():
         records = cursor.fetchall()
         print("Total rows are:  ", len(records))
         print("Printing each row")
-  
-   
-
         cursor.close()
 
     except sqlite3.Error as error:
         print("Failed to read data from sqlite table", error)
+    
     finally:
         if sqliteConnection:
             sqliteConnection.close()
             print("The SQLite connection is closed")
+    
+    return records
 
-readSqliteTable()
+
 
 
 
