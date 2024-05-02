@@ -1,5 +1,5 @@
-from app import api_call
-from app import db_query
+import api_call
+import db_query
 
 
 def test_hello_world():
