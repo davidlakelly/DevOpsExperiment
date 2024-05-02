@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, send_file
 from app import api_call
 from app import db_query
 app = Flask(__name__)
@@ -58,10 +58,13 @@ def render_data():
     else :
         return redirect('/loginpage', error='Unauthroised Access')
 
-#add a route for a download page
 @app.route('/download')
-def download():
-    return render_template('download.html')
+def downloadFile ():
+    path = "static/test.txt"
+    data = api_call.get_data()
+    with open(path, "w+") as text_file:
+        text_file.write(str(data))
+    return send_file(path, as_attachment=True)
 
 
 # This is the route fo the login page
