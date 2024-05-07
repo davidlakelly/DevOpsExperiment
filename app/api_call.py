@@ -4,11 +4,41 @@ import sys
 import requests
 import csv
 import pandas as pd
+import sqlite3
+
+
 
 #query to get data from the site
 def get_data():
     r = requests.get('https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/tps00019?lang=EN')
-    return r.json()
+    df = pd.read_json(r.json())
+    
+    #return r.json()
+    return  r.json()
+ 
+ 
+#DB stuff
+
+con = sqlite3.connect("DevOpsTest.db")
+
+# connects to DB but doesnt see table
+df = pd.read_sql_query("SELECT * from Data", con)
+#Json to Dataframe
+
+
+
+
+
+
+
+
+#print(df.to_string())
+
+#sys.stdout = open('C:\Users\Emlyn Farrell\DevOpsExperiment\r.json', 'w')
+#sys.stdout.close()
+
+
+
 
 
 #with open("TestData.csv", 'r') as file:
