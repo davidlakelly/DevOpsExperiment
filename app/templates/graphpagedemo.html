@@ -7,18 +7,15 @@
 </head>
 
 <body>
-    <form action="/datapage">
-        <input type="submit" value="Tables" />
-    </form>
 	<div style="height: 50vh; width: 50%;">
 		<canvas id="myChart"></canvas>
 	</div>
 
 	<script>
-		const labels = {{ labels | tojson}};
+		//const labels = {{ labels | tojson}};
 
 		const data = {
-			labels: labels,
+			//labels: labels,
 			datasets: [{
 				label: 'Population',
 				backgroundColor: 'rgb(255, 99, 132)',
@@ -39,7 +36,5 @@
 		);
 
 	</script>
-
-
 </body>
 </html>
