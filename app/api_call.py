@@ -19,10 +19,10 @@ def get_data():
  
 #DB stuff
 
-con = sqlite3.connect("DevOpsTest.db")
+#con = sqlite3.connect("DevOpsTest.db")
 
 # connects to DB but doesnt see table
-df = pd.read_sql_query("SELECT * from Data", con)
+#df = pd.read_sql_query("SELECT * from Data", con)
 #Json to Dataframe
 
 
