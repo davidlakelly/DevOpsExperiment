@@ -3,9 +3,14 @@ import api_call
 import db_query
 import os
 import sys
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
 app = Flask(__name__)
 authflag = 1
 #temp switch list pending methods
+
 switchList = [
         {
         "indic_de": "C9200",
@@ -30,36 +35,29 @@ switchList = [
     }
 ]
 
-labels = [
-        '2001',
-        '2002',
-        '2003',
-        '2004',
-        '2005',
-        '2006',
-    ]
- 
-data = [1000, 1200, 1285, 1324, 1589, 1870, 10000]
-
-# get data from api and return it in a route
-
 @app.route('/getapidata')
 def get_data():
+    logging.debug("Fetching data from API")
     data = api_call.get_data()
+    logging.debug("Data fetched successfully")
     return data
 
 @app.route('/getdbdata')
 def get_db_data():
+    logging.debug("Fetching data from database")
     data = db_query.readSqliteTable()
+    logging.debug("Data fetched successfully")
     return data
 
 
 @app.route('/')
 def hello():
+    logging.debug("Hello World")
     return redirect('/login')
 
 @app.route('/sample')
 def render_html():
+    logging.debug("Rendering HTML")
     users = ["David", "John", "Paul", "George"]
     return render_template('sample.html', name="David",users=users)
 
@@ -110,8 +108,11 @@ def downloadFile ():
     data = api_call.get_data()
     with open(path, "w+") as text_file:
         text_file.write(str(data))
-    return send_file(path, as_attachment=True)
+    return send_file(path, as_attachment=True), 201
 
+@app.route('/error')
+def teapot_error():
+    return render_template('418.html'), 418
 
 
 if __name__ == '__main__':
