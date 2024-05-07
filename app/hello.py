@@ -3,9 +3,14 @@ import api_call
 import db_query
 import os
 import sys
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
 app = Flask(__name__)
 authflag = 0
 #temp switch list pending methods
+
 switchList = [
         {
         "indic_de": "C9200",
@@ -30,25 +35,29 @@ switchList = [
     }
 ]
 
-# get data from api and return it in a route
-
 @app.route('/getapidata')
 def get_data():
+    logging.debug("Fetching data from API")
     data = api_call.get_data()
+    logging.debug("Data fetched successfully")
     return data
 
 @app.route('/getdbdata')
 def get_db_data():
+    logging.debug("Fetching data from database")
     data = db_query.readSqliteTable()
+    logging.debug("Data fetched successfully")
     return data
 
 
 @app.route('/')
 def hello():
+    logging.debug("Hello World")
     return redirect('/login')
 
 @app.route('/sample')
 def render_html():
+    logging.debug("Rendering HTML")
     users = ["David", "John", "Paul", "George"]
     return render_template('sample.html', name="David",users=users)
 
@@ -92,21 +101,12 @@ def downloadFile ():
     data = api_call.get_data()
     with open(path, "w+") as text_file:
         text_file.write(str(data))
-    return send_file(path, as_attachment=True)
+    return send_file(path, as_attachment=True), 201
 
+@app.route('/error')
+def teapot_error():
+    return render_template('418.html'), 418
 
-# This is the route fo the login page
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            error = 'Invalid Credentials. Please try again.'
-            authflag = 0
-        else:
-            authflag = 1
-            return redirect('/datapage')
-    return render_template('loginpage.html', error=error)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
